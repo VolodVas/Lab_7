@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define SIZE 10
+#define SIZE 30
 
 // Функція для ініціалізації масиву випадковими значеннями в діапазоні [-100, 100]
 void initializeArray(int arr[], int size) {
@@ -32,10 +32,12 @@ int findMinIndex(int arr[], int size) {
 }
 
 // Функція для обчислення добутку елементів масиву до першого нульового елемента
-int productUntilZero(int arr[], int size) {
+int productUntilZero(int arr[], int size, int *foundZero) {
     int product = 1;
+    *foundZero = 0;
     for (int i = 0; i < size; i++) {
         if (arr[i] == 0) {
+            *foundZero = 1;
             break;
         }
         product *= arr[i];
@@ -61,8 +63,13 @@ int main() {
         printf("Індекс мінімального елемента: %d\n", minIndex);
 
         // Обчислення добутку елементів до першого нульового елемента
-        int product = productUntilZero(arr, SIZE);
-        printf("Добуток елементів до першого нульового елемента: %d\n", product);
+        int foundZero;
+        int product = productUntilZero(arr, SIZE, &foundZero);
+        if (foundZero) {
+            printf("Добуток елементів до першого нульового елемента: %d\n", product);
+        } else {
+            printf("Нульового елемента не знайдено.\n");
+        }
 
         // Меню для продовження або завершення програми
         printf("Продовжити? (Так, введіть 1) (Ні, введіть 0): ");
